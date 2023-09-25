@@ -52,7 +52,6 @@ func main() {
 	customer.addProductToCart(bread)
 	customer.addProductToCart(water)
 
-	//something
 	customer.checkout()
 
 	fmt.Printf("Remaining money: %d\n", customer.remainingMoney)
