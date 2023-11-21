@@ -6,44 +6,30 @@ type Lighting struct {
 	isOn bool
 }
 
-func newLighting(isOn bool) *Lighting {
-	return &Lighting{
-		isOn: isOn,
-	}
-}
-
-func (l *Lighting) TurnOn() {
+func (l *Lighting) turnOn() {
 	l.isOn = true
 }
 
-func (l *Lighting) TurnOff() {
+func (l *Lighting) turnOff() {
 	l.isOn = false
 }
 
 type Temperature struct {
-	temp float64
+	temp int
 }
 
-func newTemperature(temp float64) *Temperature {
-	return &Temperature{
-		temp: temp,
-	}
-}
-
-func (t *Temperature) setTemperature(temp float64) {
+func (t *Temperature) setTemperature(temp int) {
 	t.temp = temp
-	fmt.Printf("Temperature set to %f degrees.\n", temp)
 }
 
-type SecuritySystem struct {
+type SecuritySystem struct{}
+
+func (ss *SecuritySystem) activate() {
+	fmt.Println("Security System has been activated!")
 }
 
-func (ss *SecuritySystem) Activate() {
-	fmt.Println("Security system activated.")
-}
-
-func (ss *SecuritySystem) Deactivate() {
-	fmt.Println("Security system deactivated.")
+func (ss *SecuritySystem) deactivate() {
+	fmt.Println("Security System has been deactivated!")
 }
 
 type Home struct {
@@ -55,39 +41,29 @@ type Home struct {
 
 func newHome() *Home {
 	return &Home{
-		kitchenLighting: newLighting(false),
-		hallLighting:    newLighting(false),
-		temperature:     newTemperature(25),
+		kitchenLighting: &Lighting{isOn: false},
+		hallLighting:    &Lighting{isOn: false},
+		temperature:     &Temperature{temp: 24},
 		ss:              &SecuritySystem{},
 	}
 }
 
-func (h *Home) turnAllLightsOn() {
-	h.hallLighting.TurnOn()
-	h.kitchenLighting.TurnOn()
-	fmt.Println("all lights in home have been turned on!")
-}
-
-func (h *Home) turnAllLightsOff() {
-	h.hallLighting.TurnOff()
-	h.kitchenLighting.TurnOff()
-	fmt.Println("all lights in home have been turned off!")
-}
-
 func (h *Home) arriveHome() {
-	h.turnAllLightsOn()
+	h.ss.deactivate()
 	h.temperature.setTemperature(24)
-	h.ss.Deactivate()
+	h.kitchenLighting.turnOn()
+	h.hallLighting.turnOn()
 }
 
 func (h *Home) leaveHome() {
-	h.turnAllLightsOff()
+	h.ss.activate()
 	h.temperature.setTemperature(21)
-	h.ss.Activate()
+	h.kitchenLighting.turnOff()
+	h.hallLighting.turnOff()
 }
 
 func main() {
 	home := newHome()
-	home.leaveHome()
 	home.arriveHome()
+	home.leaveHome()
 }

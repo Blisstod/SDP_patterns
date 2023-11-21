@@ -25,9 +25,8 @@ func (w *Water) buyProduct() int {
 }
 
 type Customer struct {
-	shoppingCart   []Product
-	allMoney       int
-	remainingMoney int
+	shoppingCart []Product
+	cash         int
 }
 
 func (c *Customer) addProductToCart(product Product) {
@@ -39,12 +38,12 @@ func (c *Customer) checkout() {
 	for _, product := range c.shoppingCart {
 		totalCost += product.buyProduct()
 	}
-	c.remainingMoney = c.allMoney - totalCost
+	c.cash -= totalCost
 	c.shoppingCart = nil
 }
 
 func main() {
-	customer := &Customer{allMoney: 100}
+	customer := &Customer{cash: 100}
 
 	bread := &Bread{price: 10}
 	water := &Water{price: 5}
@@ -54,5 +53,12 @@ func main() {
 
 	customer.checkout()
 
-	fmt.Printf("Remaining money: %d\n", customer.remainingMoney)
+	fmt.Printf("Remaining money: %d\n", customer.cash)
+
+	customer.addProductToCart(bread)
+	customer.addProductToCart(bread)
+
+	customer.checkout()
+
+	fmt.Printf("Remaining money: %d\n", customer.cash)
 }

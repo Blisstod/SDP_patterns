@@ -2,9 +2,6 @@ package main
 
 import "fmt"
 
-type Client struct {
-}
-
 type PlateInKg struct {
 	WeightInKg float64
 }

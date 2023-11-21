@@ -24,10 +24,6 @@ func (u *User) update(streamerName string) {
 	fmt.Printf("%s has started the stream\n", streamerName)
 }
 
-func newStreamer(name string) *Streamer {
-	return &Streamer{name: name}
-}
-
 func (s *Streamer) subscribe(o Observer) {
 	s.observerList = append(s.observerList, o)
 }
@@ -39,7 +35,7 @@ func (s *Streamer) notifyAll() {
 }
 
 func main() {
-	Bratishkinoff := newStreamer("Bratishkinoff")
+	Bratishkinoff := &Streamer{name: "Bratishkinoff"}
 
 	blisstod := &User{id: "blisstod@gmail.com"}
 	skits := &User{id: "skits@gmail.com"}
